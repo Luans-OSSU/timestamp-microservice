@@ -14,6 +14,15 @@ app.get("/api/hello", (req, res) => {
   res.json({greeting: "hello API"})
 });
 
-var listener = app.listen(process.env.PORT, () => {
+app.get("/api/timestamp/:date_string", (req, res) => {
+  var date_string = new Date(req.params.date_string);
+
+  if (date_string == null)
+    res.json({unix: null, utc: "Invalid Date"});
+  else
+    res.json({unix: date_string.getTime(), utc: date_string.toUTCString()});
+})
+
+var listener = app.listen(8080, () => {
   console.log("Your app is listening on por " + listener.address().port);
 });
